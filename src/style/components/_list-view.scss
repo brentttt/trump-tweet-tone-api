@@ -1,0 +1,53 @@
+$list-view-background: $dark-purple;
+
+.list-view {
+  background: $dark-purple;
+  box-sizing: border-box;
+  color: white;
+  height: 100vh;
+  left: 0;
+  opacity: .96;
+  overflow-y: scroll;
+  padding-bottom: 50px;
+  padding-top: 50px;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 200;
+
+  h1 {
+    @include wrapper;
+
+    border-bottom: 1px solid white;
+    box-sizing: border-box;
+    padding: 30px;
+  }
+}
+
+.list-view__remove {
+  cursor: pointer;
+  fill: white;
+  position: fixed;
+  right: 30px;
+  top: 30px;
+}
+
+.list-view__item {
+  @include wrapper;
+
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 30px;
+
+  &:hover {
+    background: lighten($dark-purple, 3%);
+  }
+}
+
+.list-view__item__text {
+
+}
+
+.list-view__item__datetime {
+  color: $warm-grey;
+}

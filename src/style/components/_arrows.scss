@@ -1,18 +1,35 @@
 $pos: 30px;
-$arrow-color: #9455c6;
+$arrow-color: $medium-purple;
 
 .arrow {
+  background: transparent;
+  border: none;
   cursor: pointer;
   fill: $arrow-color;
+  filter: drop-shadow(0);
   position: fixed;
   top: calc(50% - 25px);
+  transition: filter .2s;
 
   &:hover {
+    filter: drop-shadow(0 0 8px darken($arrow-color, 30%));
+  }
+
+  &:active {
     fill: lighten($arrow-color, 10%);
   }
 
-  &--disabled {
+  &:disabled {
+    cursor: default;
     fill: $medium-grey !important;
+
+    &:hover {
+      filter: drop-shadow(0 0 0);
+    }
+  }
+
+  &:focus {
+    outline: 0;
   }
 
 }

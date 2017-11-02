@@ -1,12 +1,41 @@
 .header {
+  background: lighten($warm-grey, 20%);
+  background: $medium-grey;
   background: white;
+  // border-bottom: 2px solid $dark-purple;
+  box-shadow: 0 2px 4px white;
   box-sizing: border-box;
-  box-shadow: 0 2px 4px $medium-grey;
+  left: 0;
   padding: 8px;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+
+  p {
+    color: $medium-grey;
+    font-weight: lighter;
+    font-size: .7em;
+    margin: 5px 0;
+  }
 }
 
 .header__title {
+  color: $dark-purple;
   font-size: 1.6em;
-  margin: 0;
-  text-align: center;
+  font-weight: 600;
+  margin: 15px 0 0 0;
+  //text-shadow: .5px .5px 0 $warm-grey, 1px 1px 0 $warm-grey, 1.5px 1.5px 0 $warm-grey, 2px 2px 0 $warm-grey,;
+}
+
+.latest-button {
+  color:$medium-purple;
+  left: 30px;
+  position: absolute;
+  top: 30px;
+
+  a{
+    color: $medium-purple;
+  }
 }

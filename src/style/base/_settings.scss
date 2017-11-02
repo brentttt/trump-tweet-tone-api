@@ -1,2 +1,14 @@
-$light-grey: #fcfcfc;
+$light-grey: #f9f9f9;
 $medium-grey: #ccc;
+
+$orange: #FF5C1C;
+
+$dark-purple: #2F337C;
+$medium-purple: #8F4CDB;
+
+$warm-grey: #7AA394;
+
+@mixin wrapper {
+  margin: 0 auto;
+  max-width: 963px;
+}

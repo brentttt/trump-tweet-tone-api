@@ -1,4 +1,19 @@
 body {
-  background: $light-grey;
   font-family: Roboto;
+}
+
+a {
+  color: $medium-grey;
+  text-decoration: none;
+  //color: orangered;
+  font-style: italic;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+button {
+  border: none;
+  background: transparent;
 }

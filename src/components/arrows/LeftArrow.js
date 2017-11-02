@@ -1,16 +1,26 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-const LeftArrow = () => (
-  <div className="arrow left-arrow">
+const LeftArrow = withRouter(({history, ...props}) => (
+  <button
+    className="arrow left-arrow"
+    onClick={() => {
+      const url = props.prevTweet.id;
+      props.updateHash(url);
+      props.handlePrevTweet();
+    }}
+    disabled={!props.prevTweet}
+    >
     <svg version="1.1"
     	 xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" xmlnsa="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
-    	 x="0px" y="0px" width="47.8px" height="47.8px" viewBox="0 0 47.8 47.8"
+    	 x="0px" y="0px" width="34.7px" height="31.6px" viewBox="0 0 34.7 31.6"
     	 xmlSpace="preserve">
-      <path d="M23.9,0C10.7,0,0,10.7,0,23.9s10.7,23.9,23.9,23.9s23.9-10.7,23.9-23.9S37.1,0,23.9,0z M38.6,24.9H12.1l9.9,9.9
-      	c0.4,0.4,0.4,1,0,1.4c-0.2,0.2-0.5,0.3-0.7,0.3s-0.5-0.1-0.7-0.3L8.9,24.6c-0.1-0.1-0.2-0.2-0.2-0.3c-0.1-0.2-0.1-0.5,0-0.8
-      	c0.1-0.1,0.1-0.2,0.2-0.3l11.6-11.6c0.4-0.4,1-0.4,1.4,0s0.4,1,0,1.4l-9.9,9.9h26.5c0.6,0,1,0.4,1,1S39.1,24.9,38.6,24.9z"/>
+    <path d="M0,16.3c0,0.1,0,0.1,0.1,0.2c0,0.1,0,0.1,0.1,0.2c0,0.1,0.1,0.1,0.1,0.2c0,0.1,0.1,0.1,0.1,0.2c0.1,0.1,0.2,0.2,0.3,0.3
+    	L14.3,31c0.8,0.8,2,0.8,2.8,0c0.8-0.8,0.8-2,0-2.8L6.8,17.9h25.9c1.1,0,2-0.9,2-2s-0.9-2-2-2h-26L17.1,3.4c0.8-0.8,0.8-2,0-2.8
+    	C16.7,0.2,16.2,0,15.7,0c-0.5,0-1,0.2-1.4,0.6L0.6,14.3c-0.4,0.4-0.6,1-0.6,1.5C0,15.9,0,16.1,0,16.3z"/>
     </svg>
-  </div>
-);
+
+  </button>
+));
 
 export default LeftArrow;

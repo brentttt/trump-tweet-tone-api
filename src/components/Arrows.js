@@ -5,8 +5,16 @@ import RightArrow from './arrows/RightArrow';
 
 const Arrows = (props) => (
   <div>
-    <LeftArrow />
-    <RightArrow />
+    <LeftArrow
+      updateHash={props.updateHash}
+      handlePrevTweet={props.handlePrevTweet}
+      prevTweet={props.prevTweet}
+    />
+    <RightArrow
+      updateHash={props.updateHash}
+      handleNextTweet={props.handleNextTweet}
+      nextTweet={props.nextTweet}
+    />
   </div>
 );
 

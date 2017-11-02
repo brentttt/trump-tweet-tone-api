@@ -2,10 +2,14 @@ const { requestTweets } = require('./request-tweets');
 const { getTone } = require('./get-tone');
 const { Tweet } = require('./save-tweets');
 const { mongoose } = require('./mongoose');
+const { forEach } = require('async-foreach');
 
 const getTweets = () => {
   requestTweets.then((data) => {
-    data.forEach((tweet) => {
+    data.reverse();
+    forEach(data, function(tweet, index) {
+
+      const done = this.async();
 
       Tweet.find({id: tweet.id}).exec().then((res) => {
         if(res.length === 0) {
@@ -18,6 +22,7 @@ const getTweets = () => {
 
               const newTweet = new Tweet(tweet);
               newTweet.save().then(() => {
+                done();
               }).catch((err) => {
                 console.log('ERROR', err);
               });

@@ -1,0 +1,23 @@
+.list-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  fill: $medium-purple;
+  filter: drop-shadow(0);
+  position: fixed;
+  right: 30px;
+  top: 30px;
+  transition: filter .2s;
+
+  &:hover {
+    filter: drop-shadow(0 0 8px darken($arrow-color, 30%));
+  }
+
+  &:focus{
+    outline: 0;
+  }
+
+  &:active {
+    fill: lighten($arrow-color, 10%);
+  }
+}

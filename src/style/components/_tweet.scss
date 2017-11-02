@@ -1,49 +1,104 @@
 .tweet {
-  margin: 50px auto;
+  margin: 100px auto;
   max-width: 963px;
 }
 
 .tweet__text {
   color: $light-grey;
-  font-size: 40px;
-  font-style: italic;
-  line-height: 50px;
-
   margin-bottom: 50px;
+  min-height: 200px;
 
-  span {
-    // border-bottom: 2px solid orangered;
-    color: orangered;
+  .tweet__text__content {
+    // border-bottom: 2px solid $orange;
+    color: $orange;
+    font-size: 40px;
+    font-style: italic;
+    line-height: 50px;
+  }
+
+  .tweet__text__datetime {
+    color: $medium-grey;
+    display: block;
   }
 }
 
 .tweet__charts {
+  border-bottom: 1px dashed #6fa19f;
+  border-top: 1px dashed #6fa19f;
   display: flex;
   flex-direction: row;
-  height: 300px;
+  height: 250px;
   justify-content: space-between;
+  padding: 0 20px;
 }
 
 .tweet__charts__section {
+  cursor: crosshair;
   display: flex;
   flex-direction: row;
   min-width: 100px;
   height: 100%;
+  position: relative;
+
+  &:hover {
+    background: $light-grey;
+
+    .tweet__charts__section__name {
+      background: $light-grey;
+    }
+  }
+}
+
+.tweet__charts__section__name {
+  color: $dark-purple;
+  left: 0;
+  mix-blend-mode: multiply;
+  padding: 8px 0;
+  position: absolute;
+  text-align: center;
+  top: -35px;
+  width: 100%;
+}
+
+.emotion_tone__wrapper {
+  display: flex;
+  height: 100%;
+  &:hover {
+    background: darken($light-grey, 2%);
+    .emotion_tone__type__score {
+      display: block;
+    }
+  }
+}
+
+.emotion_tone__type__score {
+  color: white;
+  display: none;
+  position: absolute;
+  text-align: center;
+  top: calc(50% - 6px);
+  width: 100%;
+  &--small {
+    color: $dark-purple;
+    top: -20px;
+  }
 }
 
 .emotion_tone__type {
-  background: darkslateblue;
+  background: $dark-purple;
   margin-right: 1px;
   margin-top: auto;
+  min-height: 2px;
   position: relative;
+  transition: height .5s;
   width: 60px;
 }
 
 .emotion_tone__type__text {
-  bottom: -70px;
-  color: #6fa19f;
+  bottom: -65px;
+  color: $warm-grey;
   font-family: 'Overpass Mono';
-  font-size: .8em;
+  font-size: .7em;
   left: 20%;
   position: absolute;
   text-transform: uppercase;
@@ -51,61 +106,16 @@
   width: 150px;
 }
 
-//tone-colors
+// tweet not found
 
-// EMOTIONAL
-// .anger {
-//   background: red;
-// }
-//
-// .disgust {
-//   background: green;
-// }
-//
-// .fear {
-//   background: pink;
-// }
-//
-// .joy {
-//   background: yellow;
-// }
-//
-// .sadness {
-//   background: blue;
-// }
-//
-// // LANGUAGE
-//
-// .analytical {
-//   background: red;
-// }
-//
-// .confident {
-//   background: green;
-// }
-//
-// .tentative {
-//   background: pink;
-// }
-//
-// // SOCIAL
-//
-// .openness {
-//   background: red;
-// }
-//
-// .conscientiousness {
-//   background: green;
-// }
-//
-// .extraversion {
-//   background: pink;
-// }
-//
-// .agreeableness {
-//   background: yellow;
-// }
-//
-// .emotional_range {
-//   background: blue;
-// }
+.tweet-not-found {
+  color: $dark-purple;
+  padding: 30vh 0;
+  text-align: center;
+
+  h1{
+    font-size: 3em;
+    margin: 0;
+    margin-bottom: 5px;
+  }
+}

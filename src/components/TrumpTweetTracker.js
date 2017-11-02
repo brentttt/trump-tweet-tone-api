@@ -1,31 +1,182 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
+import { BrowserRouter, Route, Switch, Link, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 
 import Header from './Header';
 import Tweet from './Tweet';
 import Arrows from './Arrows';
+import ListView from './ListView';
 
-export default class TrumpTweetTracker extends Component {
+class TrumpTweetTracker extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      tweets: [{
-    "created_at" : "Fri Oct 13 22:01:57 +0000 2017",
-    "id" : "918960024256434200",
-    "text" : "Jeff Flake, with an 18% approval rating in Arizona, said \"a lot of my colleagues have spoken out.\" Really, they just gave me a standing O!",
-    "tone" : "{\"tone_categories\":[{\"tones\":[{\"score\":0.3,\"tone_id\":\"anger\",\"tone_name\":\"Anger\"},{\"score\":0.6,\"tone_id\":\"disgust\",\"tone_name\":\"Disgust\"},{\"score\":0.4,\"tone_id\":\"fear\",\"tone_name\":\"Fear\"},{\"score\":0.6,\"tone_id\":\"joy\",\"tone_name\":\"Joy\"},{\"score\":0.5,\"tone_id\":\"sadness\",\"tone_name\":\"Sadness\"}],\"category_id\":\"emotion_tone\",\"category_name\":\"Emotion Tone\"},{\"tones\":[{\"score\":0.9,\"tone_id\":\"analytical\",\"tone_name\":\"Analytical\"},{\"score\":1,\"tone_id\":\"confident\",\"tone_name\":\"Confident\"},{\"score\":0.4,\"tone_id\":\"tentative\",\"tone_name\":\"Tentative\"}],\"category_id\":\"language_tone\",\"category_name\":\"Language Tone\"},{\"tones\":[{\"score\":0.4,\"tone_id\":\"openness_big5\",\"tone_name\":\"Openness\"},{\"score\":0.8,\"tone_id\":\"conscientiousness_big5\",\"tone_name\":\"Conscientiousness\"},{\"score\":0.2,\"tone_id\":\"extraversion_big5\",\"tone_name\":\"Extraversion\"},{\"score\":0.3,\"tone_id\":\"agreeableness_big5\",\"tone_name\":\"Agreeableness\"},{\"score\":0.5,\"tone_id\":\"emotional_range_big5\",\"tone_name\":\"Emotional Range\"}],\"category_id\":\"social_tone\",\"category_name\":\"Social Tone\"}]}",
-    "__v" : 0
-}]
+      listView: false
     }
   }
+  handlePrevTweet = () => {
+    this.setState((prevState) => ({
+      currentTweet: prevState.prevTweet,
+    }), () => {
+      axios.get(`http://localhost:3000/tweets/i/` + (this.state.currentTweet.count + 1))
+      .then(res => {
+          this.setState(() => ({
+            nextTweet: res.data.tweet
+          }));
+      }).catch((err) => {
+        if(err.response.status === 404) {
+          this.setState(() => ({
+            nextTweet: undefined
+          }));
+        }
+      });
+
+      axios.get(`http://localhost:3000/tweets/i/` + (this.state.currentTweet.count - 1))
+      .then(res => {
+          this.setState(() => ({
+            prevTweet: res.data.tweet
+          }));
+      }).catch((err) => {
+        if(err.response.status === 404) {
+          this.setState(() => ({
+            prevTweet: undefined
+          }));
+        }
+      });
+    });
+  }
+  handleNextTweet = () => {
+    this.setState((prevState) => ({
+      currentTweet: prevState.nextTweet,
+    }), () => {
+      axios.get(`http://localhost:3000/tweets/i/` + (this.state.currentTweet.count + 1))
+      .then(res => {
+          this.setState(() => ({
+            nextTweet: res.data.tweet
+          }));
+      }).catch((err) => {
+        if(err.response.status === 404) {
+          this.setState(() => ({
+            nextTweet: undefined
+          }));
+        }      });
+
+      axios.get(`http://localhost:3000/tweets/i/` + (this.state.currentTweet.count - 1))
+      .then(res => {
+          this.setState(() => ({
+            prevTweet: res.data.tweet
+          }));
+      }).catch((err) => {
+        if(err.response.status === 404) {
+          this.setState(() => ({
+            prevTweet: undefined
+          }));
+        }
+      });
+    });
+  }
+  handleGetTweetById = (tweetId) => {
+    let id = undefined;
+    if(tweetId) {
+      id = tweetId;
+    } else {
+      id = this.props.location.pathname.substring(1);
+    }
+    if(id) {
+      axios.get(`http://localhost:3000/tweets/id/` + id)
+      .then(res => {
+        this.setState(() => ({
+          currentTweet: res.data.tweet
+        }), () => {
+          axios.get(`http://localhost:3000/tweets/i/` + (this.state.currentTweet.count + 1))
+          .then(res => {
+              this.setState(() => ({
+                nextTweet: res.data.tweet
+              }));
+          }).catch((err) => {
+            if(err.response.status === 404) {
+              this.setState(() => ({
+                nextTweet: undefined
+              }));
+            }      });
+
+          axios.get(`http://localhost:3000/tweets/i/` + (this.state.currentTweet.count - 1))
+          .then(res => {
+              this.setState(() => ({
+                prevTweet: res.data.tweet
+              }));
+          }).catch((err) => {
+            if(err.response.status === 404) {
+              this.setState(() => ({
+                prevTweet: undefined
+              }));
+            }
+          });
+        })
+      })
+    }
+  }
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  }
+  updateHash = (url) => {
+    const { match, location, history } = this.props;
+    history.push(url)
+
+    this.setState({
+      url: url
+    })
+  }
+  handleListViewChange = () => {
+    this.setState((prevState) => ({
+      listView: !prevState.listView
+    }));
+  }
+  componentDidMount() {
+    const url = this.props.location.pathname.substring(1);
+    if(url) {
+      this.setState({
+        url: url
+      }, () => {
+        this.handleGetTweetById();
+      })
+    } else {
+      axios.get(`http://localhost:3000/tweets/latest`)
+      .then(res => {
+        this.setState(() => ({
+          currentTweet: res.data.currentTweet,
+          prevTweet: res.data.prevTweet
+        }));
+      });
+    }
+  }
+  componentDidUpdate() {
+
+  }
   render() {
-    const title = 'Trump Tweet Tracker'
     return (
-      <div>
-        <Header />
-        <Arrows />
-        <Tweet tweet={this.state.tweets[0]} />
-      </div>
+        <div>
+          <Header handleListViewChange={this.handleListViewChange}/>
+          <Arrows
+            updateHash={this.updateHash}
+            handlePrevTweet={this.handlePrevTweet}
+            handleNextTweet={this.handleNextTweet}
+            prevTweet={this.state.prevTweet}
+            nextTweet={this.state.nextTweet}
+          />
+          <Tweet tweet={this.state.currentTweet} />
+          {this.state.listView && <ListView
+              handleGetTweetById={this.handleGetTweetById}
+              handleListViewChange={this.handleListViewChange}
+            />}
+        </div>
     );
   }
 };
+
+export default withRouter(TrumpTweetTracker);
