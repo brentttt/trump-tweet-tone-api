@@ -1,5 +1,4 @@
 require('./config/config');
-const fallback = require('express-history-api-fallback');
 const express = require('express');
 
 const { minutes } = require('./utils');
@@ -14,18 +13,17 @@ const root = __dirname + './../public';
 
 getTweets();
 
-// setInterval(() => {
-//   request.then((data) => {
-//     console.log(data);
-//   });
-// }, minutes(20));
+setInterval(() => {
+  request.then((data) => {
+    console.log(data);
+  });
+}, minutes(20));
 
 app.use(express.static(root));
-// app.use(fallback('index.html', { root }));
 
-app.get('/tweet/:id', (req, res) => {
-  const tweet = req.params
-});
+// app.get('/tweet/:id', (req, res) => {
+//   const tweet = req.params
+// });
 
 app.get('/tweets/latest', (req, res) => {
 
@@ -48,7 +46,6 @@ app.get('/tweets/latest', (req, res) => {
       res.status(400).send();
     })
 
-    // res.send({currentTweet});
   }, (err) => {
     res.status(400).send();
   });
@@ -57,10 +54,10 @@ app.get('/tweets/latest', (req, res) => {
 app.get('/tweets/i/:count', (req, res) => {
   const count = req.params.count;
 
-res.set({
-  'Access-Control-Allow-Origin': '*',
-  'Content-Type': 'application/json',
-})
+  res.set({
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json',
+  })
 
   Tweet.findOne({
     count: count
@@ -78,10 +75,10 @@ res.set({
 app.get('/tweets/id/:id', (req, res) => {
   const id = req.params.id;
 
-res.set({
-  'Access-Control-Allow-Origin': '*',
-  'Content-Type': 'application/json',
-})
+  res.set({
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json',
+  })
 
   Tweet.findOne({
     id: id
@@ -98,10 +95,10 @@ res.set({
 
 app.get('/tweets/all', (req, res) => {
 
-res.set({
-  'Access-Control-Allow-Origin': '*',
-  'Content-Type': 'application/json',
-})
+  res.set({
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json',
+  })
 
   Tweet.find({}).then((list) => {
     if(!list) {
